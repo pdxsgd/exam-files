@@ -97,9 +97,68 @@ int func2(int n)
 }
 
 //===============================================================
+//编写函数看是赢还是输，赢则输出1，输则输出0
+int judge(char c1,char c2) {
+    if (c1=='R' && c2=='S') return 1;
+    else if (c1=='S' && c2=='R') return 0;
+    else if (c1=='R' && c2=='P') return 0;
+    else if (c1=='P' && c2=='R') return 1;
+    else if (c1=='P' && c2=='S') return 0;
+    else if (c1=='S' && c2=='P') return 1;
+}
 vector<string> func3(char a, char b, char c) 
 {
     vector<string> result;
+    if (a==b && b==c) {
+        result.push_back("Draw");
+        result.push_back("Draw");
+        result.push_back("Draw");
+    }
+    else if (a!=b && b!=c && a!=c) {
+        result.push_back("Draw");
+        result.push_back("Draw");
+        result.push_back("Draw");
+    }
+    else {
+        if (a!=b && a!=c) {
+            if (judge(a,b)) {
+                result.push_back("Win");
+                result.push_back("Lose");
+                result.push_back("Lose");
+            }
+            else {
+                result.push_back("Lose");
+                result.push_back("Win");
+                result.push_back("Win");
+            }
+        }
+        else if (b!=a && b!=c) {
+            if (judge(b,a)) {
+                result.push_back("Lose");
+                result.push_back("Win");
+                result.push_back("Lose");
+            }
+            else {
+                result.push_back("Win");
+                result.push_back("Lose");
+                result.push_back("Win");
+            }
+        }
+        else {
+            if (c!=a && c!=b) {
+                if (judge(c,a)) {
+                    result.push_back("Lose");
+                    result.push_back("Lose");
+                    result.push_back("Win");
+                }
+                else {
+                    result.push_back("Win");
+                    result.push_back("Win");
+                    result.push_back("Lose");
+                }
+            }
+        }
+    }
     return result;
 }
 
