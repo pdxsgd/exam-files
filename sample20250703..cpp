@@ -163,16 +163,97 @@ vector<string> func3(char a, char b, char c)
 }
 
 //===============================================================
+//求各位数字之和的函数
+int sum_of_each_digit(int n) {
+    int sum = 0;
+    while (n > 0) {
+        int digit = n % 10;
+        sum+=digit;
+        n /= 10;
+    }
+    return sum;
+}
+
+//求最高位与最低位数字之和
+int sum_of_top_and_foot(int n) {
+    int sum=n%10;
+    while (n > 0) {
+        if (n<10) {
+            sum+=n;
+            break;
+        }
+        n/=10;
+    }
+    return sum;
+}
+
+//计算一个整数的位数
+int cal_digit(int n) {
+    int counter=0;
+    while (n > 0) {
+        n/=10;
+        counter++;
+    }
+    return counter;
+}
+
 vector<int> func4(int n, int m) {
     vector<int> result;
+
+    for (int i=n;i<=m;++i) {
+        if (i%sum_of_each_digit(i)==0 && sum_of_top_and_foot(i)%2!=0) result.push_back(i);
+    }
+
+    sort(result.begin(),result.end(),[](int& a,int& b) {
+        if (cal_digit(a)!=cal_digit(b)) return cal_digit(a)<cal_digit(b);
+        return a>b;
+    });
+
     return result;
 }
 
 //===============================================================
+//判断那个向量更长
+vector<int> longerVector(const vector<int>& vec1, const vector<int>& vec2) {
+    int l1 = vec1.size();
+    int l2 = vec2.size();
+    if (l1>=l2) return vec1;
+    return vec2;
+}
+
 vector<int> func5(const vector<int>& v1, const vector<int>& v2)
 {
     vector<int> result;
-    return result;
+    //判断是否为空
+    if (v1.empty()||v2.empty()) {
+        for (auto& it:longerVector(v1,v2)) {
+            result.push_back(it);
+        }
+    }
+    else if (v1.empty()&&v2.empty()) return {};
+    else{
+        for (int i=0;i<min(v1.size(),v2.size());++i) {
+            result.push_back(v1[i]);
+            result.push_back(v2[i]);
+        }
+        if (v1.size()!=v2.size()) {
+            for (int i=min(v1.size(),v2.size());i<longerVector(v1,v2).size();++i) {
+                result.push_back(longerVector(v1,v2)[i]);
+            }
+        }
+    }
+
+    vector<int> final_result;
+    for (int i=0;i<result.size();++i) {
+        int start = i;
+        final_result.push_back(result[start]);
+        while (start!=result.size()-1&&result[i+1]==result[start]) {
+            i++;
+            if (i==result.size()) break;
+        }
+    }
+
+    return final_result;
 }
 
 //===============================================================
