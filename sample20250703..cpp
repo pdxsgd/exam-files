@@ -52,7 +52,7 @@ int func1(char x, const vector<int>& scores)
             if (x=='A') {
                 if (it<=100 && it>=90) count++;
             }
-            if (x=='F') {
+            else if (x=='F') {
                 if (frontier>=0 && frontier<=59) count++;
             }
             else {
@@ -90,6 +90,7 @@ int func2(int n)
     while (count!=n) {
         if (is_odd(start) && !is_prime(start)) {
             count++;
+            if (count==n) return start;
         }
         start+=2;
     }
@@ -261,7 +262,8 @@ class Student {
 private:
     // TODO 1: 声明合适的数据成员来存储学生的基本信息和成绩
     // 提示: 需要存储学生的姓名和多门课程的成绩。
-    
+    string Sname;
+    vector<double> scores;
 
 public:
     // 构造函数
@@ -284,20 +286,28 @@ public:
 
 Student::Student(const string& name)
 {
+    Sname = name;
 }
 
 void Student::add_score(double score)
 {
+    scores.push_back(score);
 }
 
 double Student::get_average_score() const
 {
-    return 0;
+    if (scores.empty()) return -1;
+    int len = scores.size();
+    double sum = 0;
+    for (auto& it:scores) {
+        sum+=it;
+    }
+    return sum/len;
 }
 
 string Student::get_name() const
 {
-    return "";
+    return Sname;
 }
 
 void func6(const string name, const vector<double>& scores)
